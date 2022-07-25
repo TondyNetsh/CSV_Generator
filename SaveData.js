@@ -35,35 +35,35 @@ const baseAmnt = baseAmount();
 
 // Create CSV file data in an array
 let csvFileData = {
-    "transaction": transaction,
-    "product": product,
-    "program": program,
-    "occupant": occupant,
-    "equity":equity,
-    "variance":variance,
-    "city": city,
-    "province": province,
-    "postal": postal,
+    "transactionType": transaction,
+    "productType": product,
+    "programType": program,
+    "occupanctType": occupant,
+    "equityTakeOutAmount":equity,
+    "varianceExceptionReceived":variance,
+    "cityName": city,
+    "provinceCode": province,
+    "postalCode": postal,
     "fsa": fsa,
-    "dwelling": dwelling,
-    "approved": approved,
-    "loan": loan,
-    "policy":policy,
+    "dwellingType": dwelling,
+    "approvedLendingAreas": approved,
+    "loanAmount": loan,
+    "policyException":policy,
     "ltv":ltv,
-    "downPayment":downPayment,
-    "credit":credit,
-    "primaryApp":primaryApp,
+    "downPaymentSource":downPayment,
+    "creditScore":credit,
+    "primaryApplicantInd":primaryApp,
     "gds":gds,
     "tds":tds,
-    "qualifiedInc":qualifiedInc,
-    "totalInc":totalInc,
-    "residence":residence,
-    "area":area,
-    "purchase":purchase,
-    "amortization":amortization,
-    "insurance":insurance,
-    "property":property,
-    "baseAmnt":baseAmnt
+    "qualifiedIncomeInd":qualifiedInc,
+    "totalIncome":totalInc,
+    "residencyType":residence,
+    "areaName":area,
+    "purchasePrice":purchase,
+    "amortizationTermsInYears":amortization,
+    "previouslyInsure":insurance,
+    "propertyOwnershipType":property,
+    "baseAmount":baseAmnt
 };
 
 const download = function (data) {
@@ -88,66 +88,11 @@ const download = function (data) {
     // Performing a download with click
     a.click()
 }
-
 //create a user-defined function to download CSV file
 function download_csv_file() {
-
-    //define the heading for each row of the data
-    let csv = "transactionType,productType,programType,occupantType,equityTakeOutAmount,varianceExceptionReceived,cityName," +
-        "provinceCode,postalCode,fsa,dwellingType,approvedLendingAreas,loanAmount,policyExceptionPolicyExceptionPolicyExceptionReceivedPolicy" +
-        "ltv,downPaymentSource,creditScore,primaryApplicantInd,gds,tds,qualifiedIncomeInd,totalIncome,residencyType,areaName,purchasePrice" +
-        "amortizationTermsInYears,previouslyInsure,propertyOwnershipType,baseAmount\n";
-
     const csvData = csvmaker(csvFileData);
     download(csvData);
-
-    // let sampleData = [transaction,product,program,occupant,equity,variance,city,province,postal,fsa,dwelling,approved,loan,policy,
-    //                 ltv,downPayment,credit,primaryApp,gds,tds,qualifiedInc,totalInc,residence,area,purchase,
-    //                 amortization,insurance,property,baseAmnt];
-    //
-    // let row = sampleData.length, column = records;
-    //
-    // let transpose = [];
-
-    // for (let i = 0; i < row; i++) {
-    //     for (let j = 0; j < column; j++) {
-    //         transpose[j][i] = records[i][j];
-    //     }
-    // }
-    // let csvData = [];
-    // for (let i = 0; i < records; i++) {
-    //     csvData = transpose[i];
-    // }
-
-
-    // Merge the data with CSV
-    // for (let i = 0; i < csvFileData.length; i++) {
-    //     for (let j = 0; j < csvFileData[i].length; j++) {
-    //         csv += csvFileData[i][j] + ',';
-    //     }
-    //     // csv += "\n"
-    // }
-    // csvFileData.forEach(function(row) {
-    //     csv += row.join(',');
-    //     csv += "\n";
-    // });
-
-
-
-    //display the created CSV data on the web browser
-    // document.write(csv);
-    //
-    //
-    // let hiddenElement = document.createElement('a');
-    // hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-    // hiddenElement.target = '_blank';
-    //
-    // alert("Data saved to CSV file");
-    // //provide the name for the CSV file to be downloaded
-    // hiddenElement.download = 'Bank of Canada.csv';
-    // hiddenElement.click();
 }
-
 function transactionType() {
     let transaction = ["Refinance", "Transfer", "Purchase"];
     let transType = [];
@@ -197,7 +142,7 @@ function equityTakeOutAmount() {
     {
         if (transaction[i] === "Purchase")
         {
-            amount = parseInt((Math.random() * Number.MAX_VALUE));
+            amount = parseInt(Math.random() * 50000000);
             equity[i] = amount;
         }
         else if (transaction[i] === "Refinance")
@@ -218,21 +163,18 @@ function varianceExceptionReceived() {
     let varienceException = Array(records).fill(null);
     for (let i = 0; i < records; i++)
     {
-        this.index = parseInt((Math.random() * 2));
+        this.index = parseInt(Math.random() * 2);
         let equityAmt = parseInt(equity[i]);
-        if (equityAmt > 200000)
-        {
+
+        if (equityAmt > 200000) {
             varienceException[i] = "Received";
         }
-        else
-        {
+        else {
             varienceException[i] = "Not Received";
         }
     }
     return varienceException;
 }
-
-
 function cityName() {
     //provinceName = Array(records).fill(0);
 
@@ -477,7 +419,7 @@ function previouslyInsure() {
     let insurance = Array(records).fill(null);
     for (let i = 0; i < records; i++)
     {
-        if (transactionType[i] === "Transfer" && productType[i] === "Prime")
+        if (transaction[i] === "Transfer" && product[i] === "Prime")
         {
             insurance[i] = "Previously Insured";
         }
@@ -506,8 +448,6 @@ function baseAmount() {
     }
     return baseAmount;
 }
-
-
 const csvmaker = function (data) {
 
     // Empty array for storing the values
